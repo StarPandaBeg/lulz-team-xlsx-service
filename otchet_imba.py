@@ -257,14 +257,17 @@ def parse_qr():
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     qreader_out = qreader_reader.detect_and_decode(image=img)
 
-    result = qreader_out[0]
+    try:
+        result = qreader_out[0]
 
-    params_list = result.split('&')
-    params = {}
-    for param in params_list:
-        key, value = param.split('=')
-        params[key.strip()] = value.strip()
-    return jsonify(params)
+        params_list = result.split('&')
+        params = {}
+        for param in params_list:
+            key, value = param.split('=')
+            params[key.strip()] = value.strip()
+        return jsonify(params)
+    except:
+        return jsonify({"ok": False})
 
 
 if __name__ == '__main__':
